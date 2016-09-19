@@ -75,6 +75,11 @@ public class Student {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", courses=" + courses + ", getCourses()=" + getCourses() + "]";
+	}
+
 	public Set<Course> getCourses() {
 		// courses = new HashSet<Course>( courses ); // Rehash hack
 

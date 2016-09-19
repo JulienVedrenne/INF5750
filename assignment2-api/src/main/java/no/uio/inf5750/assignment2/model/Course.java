@@ -23,6 +23,7 @@ public class Course {
      */
     private String name;
 
+    
     private Set<Student> attendants = new HashSet<Student>();
 
     // -------------------------------------------------------------------------
@@ -102,7 +103,7 @@ public class Course {
         return attendants;
     }
 
-    public void setAttendants(Set<Student> attendants) {
+	public void setAttendants(Set<Student> attendants) {
         this.attendants = attendants;
     }
 }
