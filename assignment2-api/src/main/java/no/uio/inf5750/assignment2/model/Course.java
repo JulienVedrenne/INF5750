@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.*;
 
-import no.uio.inf5750.assignment2.gui.controller.JsonIgnore;
+
 
 /**
  * @author Torgeir Lorange Ostby

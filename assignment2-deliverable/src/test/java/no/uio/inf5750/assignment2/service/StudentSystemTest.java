@@ -131,7 +131,7 @@ public class StudentSystemTest {
 	    	Student student = studentSystem.getStudent(student_id);
 	    	Course course = studentSystem.getCourse(course_id);
 			//Load the actual set of student for this course
-			Set<Student >attendants = studentSystem.getCourse(course_id).getAttendants();
+			Set<Student >attendants = course.getAttendants();
 			//Add the student to the actual set of student that attend to this course
 			for (Student s : attendants) {
 				assertEquals(s.getName(),student.getName());

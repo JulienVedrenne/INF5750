@@ -95,10 +95,8 @@ public class HibernateCourseDao implements CourseDAO {
 	@Override
 	public Collection<Course> getAllCourses() {
 	    
-		String hql = "from Course";
-	    Query query = sessionFactory.getCurrentSession().createQuery( hql );
-
-	    return query.list();	}
+		    return (Collection<Course>) sessionFactory.getCurrentSession().createCriteria(Course.class).list();
+	}
 
 	 /**
      * Deletes a course.

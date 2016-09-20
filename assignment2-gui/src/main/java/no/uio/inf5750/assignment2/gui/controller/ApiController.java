@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,11 +38,24 @@ public class ApiController {
 	
 	@RequestMapping(value = "/course", method = RequestMethod.GET)
 	@ResponseBody
-	public Collection course(HttpServletRequest request, HttpServletResponse response ,ModelMap model) {
+	public Collection course(ModelMap model) {
 		
 
 	return studentSystem.getAllCourses();
 
 	}
+	
+	@RequestMapping(value = "/student/{student_id}/location", method = RequestMethod.GET)
+	@ResponseBody
+	public Collection<Student> setLocation(@PathVariable int student_id,HttpServletRequest request, HttpServletResponse response ,ModelMap model) {
+		   // 1. get received JSON data from request
+		String latitude = request.getParameter("latitude");
+		String longitude = request.getParameter("longitude");
+		studentSystem.setStudentLocation(student_id, latitude, longitude);
+
+	return studentSystem.getAllStudents();
+
+	}
+
 
 }
