@@ -26,6 +26,9 @@ public class HibernateCourseDao implements CourseDAO {
     }
 	
 	
+	
+
+
 	/**
      * Persists a course. An unique id is generated if the object is persisted
      * for the first time, and which is both set in the given course object and
@@ -48,7 +51,7 @@ public class HibernateCourseDao implements CourseDAO {
     */
 	@Override
 	public Course getCourse(int id) {
-		   System.out.println("jhklhjkhkj" + sessionFactory.getCurrentSession().get(Course.class,id).toString());
+		 
 		return  sessionFactory.getCurrentSession().get(Course.class,id);
 	}
 	
@@ -92,8 +95,10 @@ public class HibernateCourseDao implements CourseDAO {
 	@Override
 	public Collection<Course> getAllCourses() {
 	    
-		    return (Collection<Course>) sessionFactory.getCurrentSession().createCriteria(Course.class).list();
-	}
+		String hql = "from Course";
+	    Query query = sessionFactory.getCurrentSession().createQuery( hql );
+
+	    return query.list();	}
 
 	 /**
      * Deletes a course.
@@ -103,13 +108,7 @@ public class HibernateCourseDao implements CourseDAO {
 	@Override
 	public void delCourse(Course course) {
 		
-		Transaction transaction = sessionFactory.getCurrentSession().beginTransaction();
-		 String hql = String.format("delete from Course where id = :id");
-		 
-		    Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		    query.setParameter("id", course.getId());
-		     query.executeUpdate();
-		transaction.commit();
+		sessionFactory.getCurrentSession().delete(course);
 
 		
 	}

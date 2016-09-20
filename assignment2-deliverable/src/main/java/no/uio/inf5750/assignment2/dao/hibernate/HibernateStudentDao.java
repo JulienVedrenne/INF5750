@@ -75,10 +75,8 @@ public class HibernateStudentDao implements StudentDAO {
 	@Override
 	public Collection<Student> getAllStudents() {
 		
-	    String hql = "from Student";
-	    Query query = sessionFactory.getCurrentSession().createQuery( hql );
+	    return (Collection<Student>) sessionFactory.getCurrentSession().createCriteria(Student.class).list();
 
-	    return query.list();
 		
 	}
 
@@ -90,13 +88,8 @@ public class HibernateStudentDao implements StudentDAO {
      */
 	@Override
 	public void delStudent(Student student) {
-		Transaction transaction = sessionFactory.getCurrentSession().beginTransaction();
-		 String hql = String.format("delete from Student where id = :id");
-		 
-		    Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		    query.setParameter("id", student.getId());
-		     query.executeUpdate();
-		transaction.commit();
+		 sessionFactory.getCurrentSession().delete(student);
+		  
 		
 	}
 

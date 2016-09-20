@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.*;
 
+import no.uio.inf5750.assignment2.gui.controller.JsonIgnore;
+
 /**
  * @author Torgeir Lorange Ostby
  * @version $Id: Course.java 29 2007-08-23 19:39:08Z torgeilo $
@@ -23,7 +25,7 @@ public class Course {
      */
     private String name;
 
-    
+    @JsonIgnore
     private Set<Student> attendants = new HashSet<Student>();
 
     // -------------------------------------------------------------------------
@@ -40,6 +42,7 @@ public class Course {
     // -------------------------------------------------------------------------
     // Equals and hashcode
     // -------------------------------------------------------------------------
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -50,6 +53,8 @@ public class Course {
 
         return result;
     }
+    
+ 
 
     @Override
     public boolean equals(Object o) {

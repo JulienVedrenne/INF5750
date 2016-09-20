@@ -10,6 +10,8 @@
  	</id>
  
  	<property name="name" not-null="true" unique="true"/>
+ 	<property name="longitude"/>
+ 	<property name="latitude"/>
  	
        <set name="courses" table="course_student" inverse="true" cascade="save-update">
         <key column="student_id"/>

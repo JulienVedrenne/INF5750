@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @Controller
+@RequestMapping("/")
 public class BaseController {
 
 	static Logger logger = Logger.getLogger(BaseController.class);

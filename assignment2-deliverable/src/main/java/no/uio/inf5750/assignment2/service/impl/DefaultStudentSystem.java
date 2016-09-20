@@ -65,16 +65,19 @@ public class DefaultStudentSystem implements StudentSystem {
 	public void delCourse(int courseId) {
 		
 		Course courseTodelete = getCourse(courseId);
-		Set<Student> hs = courseTodelete.getAttendants();
-		Iterator<Student> it = hs.iterator();
-		while (it.hasNext()) {
-			
-					removeAttendantFromCourse(courseTodelete.getId(),(it.next()).getId());
-				
-				
-			
-		}
+		Set<Student> setStudent = courseTodelete.getAttendants();
 		
+		Object[] set=  setStudent.toArray();
+		for (Object s : set) {
+			
+			Student student= new Student();
+			
+			student=(Student) s;
+			
+			removeAttendantFromCourse(courseTodelete.getId(),student.getId());
+		    
+		}
+
 		courseDao.delCourse(getCourse(courseId));
 		
 	}
@@ -160,9 +163,31 @@ public class DefaultStudentSystem implements StudentSystem {
 	@Override
 	public void delStudent(int studentId) {
 		
+		Student studentTodelete = getStudent(studentId);
+		Set<Course> setCourse = studentTodelete.getCourses();
 		
+		Object[] set=  setCourse.toArray();
+		for (Object s : set) {
+			
+			Course course= new Course();
+			
+			course=(Course) s;
+			
+			removeAttendantFromCourse(course.getId(),studentId);
+		    
+		}
+
 		studentDao.delStudent(getStudent(studentId));
 		
+	}
+
+	@Override
+	public void setStudentLocation(int studentId, String latitude, String longitude) {
+		
+		Student student= getStudent(studentId);
+		student.setLatitude(latitude);
+		student.setLongitude(longitude);
+			
 	}
 
 }

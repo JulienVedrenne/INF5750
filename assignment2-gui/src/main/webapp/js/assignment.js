@@ -4,7 +4,18 @@ function getStudentData() {
 	// You must first download the student json data from the server
 	// then call populateStudentTable(json);
 	// and then populateStudentLocationForm(json);
-
+	
+	$.ajax({
+		url: 'http://localhost:8080/assignment2-gui/api/student',
+		type: 'GET',
+		dataType: 'json',
+		success: function (json ){
+		console.log(json)
+		populateStudentTable(json);
+		populateStudentLocationForm(json);
+		}
+		});
+	
 }
 
 function populateStudentTable(json) {
