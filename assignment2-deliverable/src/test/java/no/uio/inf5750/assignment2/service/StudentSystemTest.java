@@ -41,6 +41,7 @@ public class StudentSystemTest {
 		  
 		}
 		
+		//Add course complete
 	    @Test
 	    public void addCourseTest()
 	    {
@@ -51,16 +52,57 @@ public class StudentSystemTest {
 	        assertEquals(course_id,courseTest.getId());
 	    }
 	    
+		//Add course failed
+	    @Test
+	    public void addCourseTestFailed()
+	    {
+	    	
+	    	int course_id = studentSystem.addCourse("INF5850","");
+	        Course courseTest = studentSystem.getCourse(course_id);
+	        assertNull(courseTest);
+	    }
+	    
+	  //Add course failed2
+	    @Test
+	    public void addCourseTestFailed2()
+	    {
+	    	
+	    	int course_id = studentSystem.addCourse("","");
+	        Course courseTest = studentSystem.getCourse(course_id);
+	        assertNull(courseTest);
+	    }
+	    
 	    @Test
 	    public void getCourseTest()
 	    {
 	    	int course_id = studentSystem.addCourse("INF5850","Informatics");
 	        Course courseTest = studentSystem.getCourse(course_id);
-	        System.out.println("dddddddddddddddddddddddddddddddddddddd" + courseTest);
 	        assertEquals(course_id,courseTest.getId());
 	        assertEquals(course.getCourseCode(),courseTest.getCourseCode());
 	        assertEquals(course.getName(),courseTest.getName());
 	    }
+	    
+	    @Test
+	    public void getCourseByCourseCodeTest()
+	    {
+	    	int course_id = studentSystem.addCourse("INF5850","Informatics");
+	        Course courseTest = studentSystem.getCourseByCourseCode("INF5850");
+	        assertEquals(course_id,courseTest.getId());
+	        assertEquals(course.getCourseCode(),courseTest.getCourseCode());
+	        assertEquals(course.getName(),courseTest.getName());
+	    }
+	    
+	    @Test
+	    public void getCourseByNameTest()
+	    {
+	    	int course_id = studentSystem.addCourse("INF5850","Informatics");
+	        Course courseTest = studentSystem.getCourseByName("Informatics");
+	        assertEquals(course_id,courseTest.getId());
+	        assertEquals(course.getCourseCode(),courseTest.getCourseCode());
+	        assertEquals(course.getName(),courseTest.getName());
+	    }
+	    
+	    
 	    
 	    @Test
 	    public void updateCourseTest()
@@ -90,6 +132,24 @@ public class StudentSystemTest {
 	        Student studentTest = studentSystem.getStudent(student_id);
 	        assertNotNull(student_id);
 	        assertEquals(student_id,studentTest.getId());
+	    }
+	    
+	    @Test
+	    public void getStudentByName()
+	    {
+	    	int student_id = studentSystem.addStudent("julien");
+	        Student studentTest = studentSystem.getStudentByName("julien");
+	        assertNotNull(student_id);
+	        assertEquals(student_id,studentTest.getId());
+	    }
+	    
+	    @Test
+	    public void addStudentTestFailed()
+	    {
+	    	
+	    	int student_id = studentSystem.addStudent("");
+	        Student studentTest = studentSystem.getStudent(student_id);
+	        assertNull(studentTest);
 	    }
 	    
 	    @Test
@@ -142,8 +202,7 @@ public class StudentSystemTest {
 			
 			for (Course c : courses) {
 				assertEquals(c.getName(),course.getName());
-			}
-	    	
+			}    	
 	        
 	    }
 	    
@@ -155,23 +214,17 @@ public class StudentSystemTest {
 	    	int course_id = studentSystem.addCourse("INF5850","Informatics");
 	    	
 	    	studentSystem.addAttendantToCourse(course_id, student_id);
+	    	studentSystem.removeAttendantFromCourse(course_id, student_id);
 	        
 	    	Student student = studentSystem.getStudent(student_id);
 	    	Course course = studentSystem.getCourse(course_id);
 			//Load the actual set of student for this course
 			Set<Student >attendants = studentSystem.getCourse(course_id).getAttendants();
-			//Add the student to the actual set of student that attend to this course
-			for (Student s : attendants) {
-				assertEquals(s.getName(),student.getName());
-			}
+			assertEquals(true, attendants.isEmpty());		
 					
 			Set<Course> courses = student.getCourses();
-			//Add the course to the actual set of course 
-			
-			for (Course c : courses) {
-				assertEquals(c.getName(),course.getName());
-			}
-	    	
+	
+			assertEquals(true, courses.isEmpty());
 	        
 	    }
 	    

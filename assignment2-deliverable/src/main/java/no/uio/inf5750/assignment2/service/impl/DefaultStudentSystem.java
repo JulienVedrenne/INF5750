@@ -25,7 +25,15 @@ public class DefaultStudentSystem implements StudentSystem {
 	
 	@Override
 	public int addCourse(String courseCode, String name) {
+		
+	//save if all argument have a value 
+		if(courseCode != "" && name != "")
+		{
 		return (Integer) courseDao.saveCourse(new Course(courseCode,name));
+		}
+		else{
+			return 0;
+		}
 		
 	}
 
@@ -64,12 +72,16 @@ public class DefaultStudentSystem implements StudentSystem {
 	@Override
 	public void delCourse(int courseId) {
 		
+		//Find the course to delete
 		Course courseTodelete = getCourse(courseId);
+		//Start to collect all the student follow by a student
 		Set<Student> setStudent = courseTodelete.getAttendants();
 		
 		Object[] set=  setStudent.toArray();
+		//For each student present on the course
 		for (Object s : set) {
 			
+			//Remove the course of the list of the student courses
 			Student student= new Student();
 			
 			student=(Student) s;
@@ -132,7 +144,13 @@ public class DefaultStudentSystem implements StudentSystem {
 
 	@Override
 	public int addStudent(String name) {
+		//Save student if the name is not null 
+		if( name != ""){
 		return  studentDao.saveStudent(new Student(name));
+		}
+		else{
+			return 0;
+		}
 	}
 
 	@Override
@@ -162,13 +180,15 @@ public class DefaultStudentSystem implements StudentSystem {
 
 	@Override
 	public void delStudent(int studentId) {
-		
+		//Find the student to delete
 		Student studentTodelete = getStudent(studentId);
+		//Start to collect all the course follow by a student
 		Set<Course> setCourse = studentTodelete.getCourses();
 		
 		Object[] set=  setCourse.toArray();
+		//For each course follow by a student
 		for (Object s : set) {
-			
+			//Remove the student of the list of the course
 			Course course= new Course();
 			
 			course=(Course) s;
@@ -184,7 +204,9 @@ public class DefaultStudentSystem implements StudentSystem {
 	@Override
 	public void setStudentLocation(int studentId, String latitude, String longitude) {
 		
+		//Collect student
 		Student student= getStudent(studentId);
+		//Set latitude and longitude
 		student.setLatitude(latitude);
 		student.setLongitude(longitude);
 			

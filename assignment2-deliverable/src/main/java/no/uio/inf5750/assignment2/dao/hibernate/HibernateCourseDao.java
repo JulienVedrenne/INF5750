@@ -20,6 +20,7 @@ public class HibernateCourseDao implements CourseDAO {
 	static Logger logger = Logger.getLogger(HibernateCourseDao.class);
     private SessionFactory sessionFactory;
     
+    //SessionFactory with hibernate database
     public void setSessionFactory( SessionFactory sessionFactory )
     {
         this.sessionFactory = sessionFactory;
@@ -63,9 +64,11 @@ public class HibernateCourseDao implements CourseDAO {
      */
 	@Override
 	public Course getCourseByCourseCode(String courseCode) {
+		//create a query to find a course by his CourseCode
 		Query query= sessionFactory.getCurrentSession().
 	            createQuery("from Course where courseCode=:courseCode");
 	    query.setParameter("courseCode", courseCode);
+	    //collect result 
 	    Course course = (Course) query.uniqueResult();
 	    return course;
 	}
@@ -79,10 +82,12 @@ public class HibernateCourseDao implements CourseDAO {
 	@Override
 	@SuppressWarnings("deprecation")
 	public Course getCourseByName(String name) {
-		    
+		
+		//create a query to find a course by his name
 		Query query= sessionFactory.getCurrentSession().
 	            createQuery("from Course where name=:name");
 	    query.setParameter("name", name);
+	    //collect result 
 	    Course course = (Course) query.uniqueResult();
 	    return course;
 	}

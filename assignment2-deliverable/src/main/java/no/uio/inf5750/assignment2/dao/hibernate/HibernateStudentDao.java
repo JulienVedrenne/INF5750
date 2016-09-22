@@ -21,6 +21,8 @@ public class HibernateStudentDao implements StudentDAO {
 	static Logger logger = Logger.getLogger(HibernateCourseDao.class);
     private SessionFactory sessionFactory;
     
+    //SessionFactory with hibernate database
+
     public void setSessionFactory( SessionFactory sessionFactory )
     {
         this.sessionFactory = sessionFactory;

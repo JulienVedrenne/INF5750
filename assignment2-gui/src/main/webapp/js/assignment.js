@@ -5,6 +5,7 @@ function getStudentData() {
 	// then call populateStudentTable(json);
 	// and then populateStudentLocationForm(json);
 	
+	//Ajax call to the server to collect the student information with JSON format 
 	$.ajax({
 		url: 'http://localhost:8080/assignment2-gui/api/student',
 		type: 'GET',
@@ -26,10 +27,14 @@ function populateStudentTable(json) {
 	// Also search how to make rows and columns in a table with html
 
 	// the table can you see in index.jsp with id="studentTable"
-	
+	//We remove all the acutal student 
 	$('.info').remove();
+	
+	//foreach student on the database
 	for (var s = 0; s < json.length; s++) {
+		//we create one ligne of table
 		var formString = '<tr class= "info"><select id="studentTable" name="students">';	
+		//We add one line with name course and location
 		var student = json[s];
 		var course = "";
 		student = explodeJSON(student);
@@ -42,6 +47,8 @@ function populateStudentTable(json) {
 		
 		formString += '<td>' + course + '</td>'
 		;
+		
+		//If we found a location for our student 
 		if(student.latitude != null && student.longitude !=null){
 			formString += '<td>' + "latitude " + student.latitude + " longitude " + student.longitude + '</td>'
 			;
@@ -58,6 +65,7 @@ function populateStudentTable(json) {
 		}
 		formString += '</select></tr>';
 		
+		//Add the html created on the table with the id studentTable
 		$('#studentTable').append(formString);
 		
 	}
@@ -65,8 +73,12 @@ function populateStudentTable(json) {
 }
 
 function populateStudentLocationForm(json) {
+	
+	//we create one ligne of table
 	var formString = '<tr><td><select id="selectedStudent" name="students">';
+	//foreach student on the database
 	for (var s = 0; s < json.length; s++) {
+		// We put the name of the student on the select ( add an option with value ) 
 		var student = json[s];
 		student = explodeJSON(student);
 		formString += '<option value="' + student.id + '">' + student.name
@@ -74,10 +86,12 @@ function populateStudentLocationForm(json) {
 	}
 	formString += '</select></td></tr>';
 	
+	//Add the html created on the table with the id studentLocationTable
 	$('#studentLocationTable').append(formString);
 	
 }
 
+//On click button set location
 $('#locationbtn').on('click', function(e) {
 	e.preventDefault();
 	get_location();
@@ -88,38 +102,35 @@ function get_location() {
 	
 	    if (navigator.geolocation) {
 	    	
-	        navigator.geolocation.getCurrentPosition(showPosition);
+	        navigator.geolocation.getCurrentPosition(location_found);
 	    } else {
 	        x.innerHTML = "Geolocation is not supported by this browser.";
 	    }
 	}
-	function showPosition(position) {
-		
-		var liste = document.getElementById("selectedStudent");
-		var id = liste.options[liste.selectedIndex].value;
-		console.log(id);
-		$.ajax({
-			url:" http://localhost:8080/assignment2-gui/api/student/" + id + "/location",
-			type: 'GET',
-			dataType: 'JSON',
-			data:{ 
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude
-			},
-			success: function (json ){
-			console.log(json)
-			populateStudentTable(json);
-			}
-			});
-		
-	}
-
 
 // Call this function when you've succesfully obtained the location. 
 function location_found(position) {
 	// Extract latitude and longitude and save on the server using an AJAX call. 
 	// When you've updated the location, call populateStudentTable(json); again
 	// to put the new location next to the student on the page. .
+	
+	//we collect the id of the student select on the combobox
+	var liste = document.getElementById("selectedStudent");
+	var id = liste.options[liste.selectedIndex].value;
+	//Ajax  call with the id of student selected to update location
+	$.ajax({
+		url:" http://localhost:8080/assignment2-gui/api/student/" + id + "/location",
+		type: 'GET',
+		dataType: 'JSON',
+		data:{ 
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude
+		},
+		success: function (json ){
+		//Populate table on the success of the ajax call
+		populateStudentTable(json);
+		}
+		});
 
 }
 

@@ -147,19 +147,10 @@ public class BaseController {
 		return "course";
 	}
 
-
-
-
-
-
-
 	
 	private ModelMap populateModel(ModelMap model) {
 		Collection<Student> students = studentSystem.getAllStudents();
-		
-		for (Student s : students) {
-		    System.out.println("AAAAAAAAAAAAAZZZZZZZZZZZZZAAAAAAAAAA" + s);
-		}
+
 		model.addAttribute("students", students);
 		Collection<Course> courses = studentSystem.getAllCourses();
 		model.addAttribute("courses", courses);
